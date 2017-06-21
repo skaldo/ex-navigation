@@ -25,10 +25,6 @@ import { createNavigatorComponent } from '../ExNavigationComponents';
 
 import type ExNavigationContext from '../ExNavigationContext';
 
-const TabViewPagerComponent = Platform.OS === 'ios'
-  ? TabViewPagerScroll
-  : TabViewPagerAndroid;
-
 // TODO: Fill this in
 type SlidingTabItem = {
   id: string,
@@ -139,9 +135,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
   }
 
   componentWillUnmount() {
-    this.props.navigation.dispatch(
-      Actions.removeNavigator(this.state.navigatorUID)
-    );
+    this.props.navigation.dispatch(Actions.removeNavigator(this.state.navigatorUID));
     this.props.onUnregisterNavigatorContext(this.state.navigatorUID);
   }
 
@@ -166,9 +160,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
         currentTabKey
       );
       if (navigatorUIDForTabKey) {
-        this.props.navigation.dispatch(
-          Actions.setCurrentNavigator(navigatorUIDForTabKey)
-        );
+        this.props.navigation.dispatch(Actions.setCurrentNavigator(navigatorUIDForTabKey));
       }
     }
   }
@@ -208,12 +200,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
   }
 
   _renderPager = props => {
-    return (
-      <TabViewPagerComponent
-        {...props}
-        swipeEnabled={this.props.swipeEnabled}
-      />
-    );
+    return <TabViewPagerScroll {...props} swipeEnabled={this.props.swipeEnabled} />;
   };
 
   _renderScene = ({ route }) => {
@@ -238,10 +225,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
       tabStyle: this.props.tabStyle,
       labelStyle: this.props.labelStyle,
       renderLabel: renderLabelFn,
-      style: [
-        { backgroundColor: this.props.barBackgroundColor },
-        this.props.tabBarStyle,
-      ],
+      style: [{ backgroundColor: this.props.barBackgroundColor }, this.props.tabBarStyle],
     };
 
     return (
@@ -258,12 +242,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
     const selectedChild = navState.routes[navState.index];
 
     return [
-      ..._.uniq(
-        _.without(
-          [...currentRenderedTabKeys, ...currentTabItems],
-          selectedChild.key
-        )
-      ),
+      ..._.uniq(_.without([...currentRenderedTabKeys, ...currentTabItems], selectedChild.key)),
       selectedChild.key,
     ];
   }
@@ -331,9 +310,7 @@ class ExNavigationSlidingTab extends PureComponent<any, Props, State> {
   }
 
   _getNavigatorContext(): ExNavigationTabContext {
-    const navigatorContext: any = this.props.navigation.getNavigatorByUID(
-      this.state.navigatorUID
-    );
+    const navigatorContext: any = this.props.navigation.getNavigatorByUID(this.state.navigatorUID);
     return (navigatorContext: ExNavigationTabContext);
   }
 }
