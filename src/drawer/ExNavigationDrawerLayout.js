@@ -17,6 +17,7 @@ import TouchableNativeFeedbackSafe
 
 type Props = {
   renderHeader: () => React.Element<any>,
+  renderAbsoluteElement?: () => React.Element<any>,
   width: number,
   children: React.Element<any>,
   drawerBackgroundColor: string,
@@ -34,8 +35,11 @@ export default class ExNavigationDrawerLayout extends React.Component {
   _component: DrawerLayout;
 
   render() {
-    let { drawerPosition } = this.props;
+    let { drawerPosition, renderAbsoluteElement } = this.props;
     let position = drawerPosition[0].toUpperCase() + drawerPosition.substr(1);
+
+    const absoluteElement = renderAbsoluteElement ? renderAbsoluteElement() : null;
+    const children = absoluteElement ? [React.cloneElement(this.props.children, { key: 'one' }), absoluteElement] : this.props.children;
 
     return (
       <DrawerLayout
@@ -54,7 +58,7 @@ export default class ExNavigationDrawerLayout extends React.Component {
         renderNavigationView={
           this.props.renderNavigationView || this._renderNavigationView
         }>
-        {this.props.children}
+        {children}
       </DrawerLayout>
     );
   }

@@ -58,6 +58,7 @@ type Props = {
   initialItem: string,
   renderHeader: () => React.Element<any>,
   renderNavigationView: () => React.Element<any>,
+  renderAbsoluteElement?: () => React.Element<any>,
   drawerBackgroundColor: string,
   drawerWidth: 300,
   drawerStyle: any,
@@ -145,6 +146,7 @@ class ExNavigationDrawer extends PureComponent<any, Props, State> {
       drawerPosition: this.props.drawerPosition,
       width: this.props.drawerWidth,
       renderNavigationView: this.props.renderNavigationView,
+      renderAbsoluteElement: this.props.renderAbsoluteElement,
       style: [this.props.drawerStyle],
     };
 
